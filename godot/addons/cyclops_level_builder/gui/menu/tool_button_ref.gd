@@ -25,6 +25,8 @@
 extends Button
 class_name ToolButton
 
+@onready var highlight:ColorRect = %highlight
+
 var plugin:CyclopsLevelBuilder:
 	set(value):
 		#if plugin:
@@ -56,10 +58,10 @@ func on_tool_changed(tool:CyclopsTool):
 func update_selection():
 	if tool_owner && tool_owner.active_tool:
 		if tool_owner.active_tool.get_path() == tool_path:
-			%hilight.visible = true
+			highlight.visible = true
 			return
 		
-	%hilight.visible = false
+	highlight.visible = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
