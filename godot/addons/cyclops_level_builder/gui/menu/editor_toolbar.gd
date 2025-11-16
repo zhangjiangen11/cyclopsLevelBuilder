@@ -127,6 +127,7 @@ func build_ui():
 					var bn:ToolButton = preload("res://addons/cyclops_level_builder/gui/menu/tool_button.tscn").instantiate()
 					bn.plugin = editor_plugin
 					#print("tool path ", tool_inst.get_path())
+					#bn.tool_owner = editor_plugin
 					bn.tool_path = tool_inst.get_path()
 					bn.icon = tool_inst._get_tool_icon()
 					if !bn.icon:
@@ -134,6 +135,7 @@ func build_ui():
 					bn.tooltip_text = tool_inst._get_tool_tooltip()
 					
 					%ToolButtonContainer.add_child(bn)
+					bn.update_selection()
 
 	
 	%display_mode.select(editor_plugin.display_mode)

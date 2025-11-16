@@ -29,25 +29,27 @@ class_name ToolButton
 
 var plugin:CyclopsLevelBuilder:
 	set(value):
-		#if plugin:
-			#plugin.tool_changed.disconnect(on_tool_changed)
+		if plugin:
+			plugin.tool_changed.disconnect(on_tool_changed)
 			
 		plugin = value
-#		update_selection()
 
-		#if plugin:
-			#plugin.tool_changed.connect(on_tool_changed)
-
-var tool_owner:Node:
-	set(v):
-		if tool_owner:
-			tool_owner.tool_changed.disconnect(on_tool_changed)
-		
-		tool_owner = v
+		if plugin:
+			plugin.tool_changed.connect(on_tool_changed)
+			
 		update_selection()
 
-		if tool_owner:
-			tool_owner.tool_changed.connect(on_tool_changed)
+#var tool_owner:Node:
+	#set(v):
+		#if tool_owner:
+			#tool_owner.tool_changed.disconnect(on_tool_changed)
+		#
+		#tool_owner = v
+#
+		#if tool_owner:
+			#tool_owner.tool_changed.connect(on_tool_changed)
+#
+		#update_selection()
 
 #var tool_id:String
 var tool_path:NodePath
@@ -56,8 +58,11 @@ func on_tool_changed(tool:CyclopsTool):
 	update_selection()
 
 func update_selection():
-	if tool_owner && tool_owner.active_tool:
-		if tool_owner.active_tool.get_path() == tool_path:
+	if !is_node_ready():
+		return
+	
+	if plugin && plugin.active_tool:
+		if plugin.active_tool.get_path() == tool_path:
 			highlight.visible = true
 			return
 		
@@ -75,7 +80,8 @@ func _process(delta):
 
 func _on_pressed():
 	#print("click ", tool_id)
-	var target = tool_owner if tool_owner else plugin
+#	var target = tool_owner if tool_owner else plugin
+	var target = plugin
 	
 	
 	if target:
